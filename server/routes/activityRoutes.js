@@ -73,5 +73,39 @@ router.get("/", protect, async (req, res) => {
     res.status(500).json({ message: "Server Error" });
   }
 });
+// @desc    Get user's activity summary
+// @route   GET /api/activities/summary
+// @access  Private
+router.get("/summary", protect, async (req, res) => {
+  try {
+    const summary = await Activity.aggregate([
+      // Stage 1: Match documents for the logged-in user
+      {
+        $match: { user: req.user._id },
+      },
+      // Stage 2: Group by activity type and sum the co2 and cost
+      {
+        $group: {
+          _id: "$type", // Group by the 'type' field (e.g., 'transport', 'food')
+          totalCO2: { $sum: "$co2" },
+          totalCost: { $sum: "$cost" },
+        },
+      },
+      // Stage 3: (Optional) Rename _id to 'type' for a cleaner output
+      {
+        $project: {
+          _id: 0,
+          type: "$_id",
+          totalCO2: 1,
+          totalCost: 1,
+        },
+      },
+    ]);
 
+    res.json(summary);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server Error" });
+  }
+});
 module.exports = router;

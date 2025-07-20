@@ -1,12 +1,14 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db");
+const cors = require("cors");
 // Load environment variables
 dotenv.config();
 //connecting to databse
 connectDB();
 const app = express();
 //Middleware to parse JSON bodies
+app.use(cors());
 app.use(express.json());
 
 app.use("/api/auth", require("./routes/authRoutes"));

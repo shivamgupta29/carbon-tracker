@@ -73,6 +73,53 @@ router.get("/", protect, async (req, res) => {
     res.status(500).json({ message: "Server Error" });
   }
 });
+// @desc    Get user's activity summary for the last 7 days
+// @route   GET /api/activities/summary/week
+// @access  Private
+router.get("/summary/week", protect, async (req, res) => {
+  try {
+    const sevenDaysAgo = new Date();
+    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+
+    const summary = await Activity.aggregate([
+      { $match: { user: req.user._id, createdAt: { $gte: sevenDaysAgo } } },
+      {
+        $group: {
+          _id: { $dateToString: { format: "%Y-%m-%d", date: "$createdAt" } },
+          totalCO2: { $sum: "$co2" },
+        },
+      },
+      { $sort: { _id: 1 } },
+      { $project: { _id: 0, date: "$_id", totalCO2: 1 } },
+    ]);
+    res.json(summary);
+  } catch (error) {
+    res.status(500).json({ message: "Server Error" });
+  }
+});
+// @desc    Get user's activity summary for the last 30 days
+// @route   GET /api/activities/summary/month
+// @access  Private
+router.get("/summary/month", protect, async (req, res) => {
+  try {
+    const thirtyDaysAgo = new Date();
+    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+
+    const summary = await Activity.aggregate([
+      { $match: { user: req.user._id, createdAt: { $gte: thirtyDaysAgo } } },
+      {
+        $group: {
+          _id: "$type",
+          totalCO2: { $sum: "$co2" },
+        },
+      },
+      { $project: { _id: 0, type: "$_id", totalCO2: 1 } },
+    ]);
+    res.json(summary);
+  } catch (error) {
+    res.status(500).json({ message: "Server Error" });
+  }
+});
 // @desc    Get user's activity summary
 // @route   GET /api/activities/summary
 // @access  Private

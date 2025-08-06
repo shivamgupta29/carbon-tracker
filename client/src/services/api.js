@@ -27,10 +27,12 @@ export const addActivity = (activityData) =>
 export const getUserProfile = () => API.get("/users/profile");
 
 // News API
-const NEWS_API_KEY = import.meta.env.VITE_NEWS_API_KEY;
+const GNEWS_API_KEY = import.meta.env.VITE_NEWS_API_KEY;
 export const fetchClimateNews = () => {
-  // We will search for "climate change" in India
-  const NEWS_URL = `https://newsapi.org/v2/everything?q=climate+change+India&apiKey=${NEWS_API_KEY}&pageSize=5`;
+  const query = `("climate change" OR "carbon emissions") AND India`;
+  const NEWS_URL = `https://gnews.io/api/v4/search?q=${encodeURIComponent(
+    query
+  )}&lang=en&country=in&max=5&apikey=${GNEWS_API_KEY}`;
   return axios.get(NEWS_URL);
 };
 

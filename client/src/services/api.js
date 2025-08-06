@@ -1,7 +1,9 @@
 import axios from "axios";
 //Axios is  library for making HTTP requests
 
-const API = axios.create({ baseURL: "http://localhost:5000/api" });
+const API = axios.create({
+  baseURL: "https://carbon-tracker-server.onrender.com/api",
+});
 
 // Add an interceptor to include the token in every request
 API.interceptors.request.use((req) => {

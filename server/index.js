@@ -14,6 +14,7 @@ app.use(express.json());
 app.use("/api/auth", require("./routes/authRoutes"));
 app.use("/api/activities", require("./routes/activityRoutes"));
 app.use("/api/users", require("./routes/userRoutes"));
+app.use("/api/ai", require("./routes/aiRoutes"));
 // A basic route to test the server
 app.get("/", (req, res) => {
   res.send("API is running...");

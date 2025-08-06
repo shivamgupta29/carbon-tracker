@@ -126,11 +126,9 @@ router.get("/summary/month", protect, async (req, res) => {
 router.get("/summary", protect, async (req, res) => {
   try {
     const summary = await Activity.aggregate([
-      // Stage 1: Match documents for the logged-in user
       {
         $match: { user: req.user._id },
       },
-      // Stage 2: Group by activity type and sum the co2 and cost
       {
         $group: {
           _id: "$type", // Group by the 'type' field (e.g., 'transport', 'food')
@@ -138,7 +136,6 @@ router.get("/summary", protect, async (req, res) => {
           totalCost: { $sum: "$cost" },
         },
       },
-      // Stage 3: (Optional) Rename _id to 'type' for a cleaner output
       {
         $project: {
           _id: 0,

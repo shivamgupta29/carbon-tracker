@@ -1,4 +1,5 @@
 import axios from "axios";
+//Axios is  library for making HTTP requests
 
 const API = axios.create({ baseURL: "http://localhost:5000/api" });
 

@@ -65,7 +65,7 @@ const AddActivityPage = () => {
           to="/"
           className="text-purple-400 hover:text-purple-300 mb-4 inline-block"
         >
-          &larr; Back to Dashboard
+          Back to Dashboard
         </Link>
         <h1 className="text-2xl sm:text-3xl font-bold mb-8 text-purple-400 text-center">
           Log Your Activities

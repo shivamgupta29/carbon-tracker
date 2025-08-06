@@ -1,14 +1,13 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom"; // 1. Import useNavigate
+import { useNavigate } from "react-router-dom";
 import { getUserProfile } from "../services/api";
 
 const ProfilePage = () => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate(); // 2. Initialize navigate
+  const navigate = useNavigate();
 
   useEffect(() => {
-    // ... fetchProfile function is the same
     const fetchProfile = async () => {
       try {
         const { data } = await getUserProfile();
@@ -21,8 +20,6 @@ const ProfilePage = () => {
     };
     fetchProfile();
   }, []);
-
-  // 3. Add the logout handler function
   const handleLogout = () => {
     localStorage.removeItem("user");
     navigate("/login");
@@ -42,7 +39,6 @@ const ProfilePage = () => {
         <h1 className="text-3xl font-bold mb-8 text-purple-400">
           Your Profile
         </h1>
-        {/* 4. Add the logout button */}
         <button
           onClick={handleLogout}
           className="px-4 py-2 bg-red-600 text-white font-semibold rounded-md hover:bg-red-700"

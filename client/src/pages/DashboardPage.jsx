@@ -46,8 +46,6 @@ const DashboardPage = () => {
           >
             + Add Activity
           </Link>
-
-          {/* Summary Cards */}
           <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
             {summary.map((item) => (
               <div

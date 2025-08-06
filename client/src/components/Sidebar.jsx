@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { fetchClimateNews } from "../services/api";
-// Static educational content
 const facts = [
   {
     title: "India's Energy Mix",
